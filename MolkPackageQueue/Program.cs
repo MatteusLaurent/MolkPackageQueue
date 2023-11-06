@@ -5,8 +5,10 @@
         static void Main(string[] args)
         {
             Console.WriteLine("Implement MPS");
-            // Instantiate the MPS-PriorityQueue
-            // Create a function to queue and dequeue packages according to the rules. 
+            PriorityQueue prioqueue = new PriorityQueue();
+            PackageFactory packageFactory = new PackageFactory();
+            prioqueue.Enqueue(packageFactory.CreatePackage());
+            // Create a function and dequeue packages according to the rules. 
             // Don´t forget the logging lists
             // Print log for packages created in order of creation, with payload packageName and package priority
             // Print log for packages handled (dequeue and add to logg), same content as above.
