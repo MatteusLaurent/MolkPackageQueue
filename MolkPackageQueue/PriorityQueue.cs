@@ -40,7 +40,7 @@ namespace MolkPackageQueue
         }
         public void Dequeue(Package package)
         {
-            // do stuff
+            
         }
 
         public void PrintLogList(List<Package> packageList) { }
