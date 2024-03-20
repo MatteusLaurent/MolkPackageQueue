@@ -2,15 +2,80 @@
 {
     internal class Program
     {
+        static List<Package> incommingPackages = new();
+        static List<Package> outgoingPackages = new();
+
+        static PriorityQueue priorityQueue = new();
+
         static void Main(string[] args)
         {
-            Console.WriteLine("Implement MPS");
-            // Instantiate the MPS-PriorityQueue
-            // Create a function to queue and dequeue packages according to the rules. 
-            // Don´t forget the logging lists
-            // Print log for packages created in order of creation, with payload packageName and package priority
-            // Print log for packages handled (dequeue and add to logg), same content as above.
-            // No high prio should be in bottom of handled list, alla paket som skapas ska finnas i hanterad-listan.
+            Random random = new();
+            while (priorityQueue.Count <= 50)
+            {
+                for (int i = 0; i < random.Next(10); i++)
+                {
+                    priorityQueue.Enqueue(Incomming());
+                }
+
+                if (priorityQueue.Count > 0)
+                {
+                    for (int i = 0; i < random.Next(5); i++)
+                    {
+                        Package? package = priorityQueue.Next();
+                        if (package != null)
+                        {
+                            Outcomming(package);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Queue is empty");
+                            break;
+                        }
+                    }
+                }
+
+                if (priorityQueue.Count <= 0) break;
+            }
+
+            Console.WriteLine("-- Send remaining --");
+            int count = 1;
+            while (priorityQueue.Count > 0)
+            {
+                Package? package = priorityQueue.Next();
+                if (package != null)
+                {
+                    Console.WriteLine($"# {count++}, Priority: {package.Priority}, Payload: {package.Payload}");
+                    Outcomming(package);
+                }
+            }
+
+            Console.WriteLine("-- Incomming --");
+
+            count = 1;
+            foreach (Package p in incommingPackages)
+            {
+                Console.WriteLine($"# {count++}, Priority: {p.Priority}, Payload: {p.Payload}");
+            }
+            Console.WriteLine("-- Outgoing --");
+            count = 1;
+            foreach (Package p in outgoingPackages)
+            {
+                Console.WriteLine($"# {count++}, Priority: {p.Priority}, Payload: {p.Payload}");
+            }
+        }
+
+        private static Package Incomming() 
+        {
+            Package package = PackageFactory.CreatePackage();
+            incommingPackages.Add(package);
+            return package; 
+        }
+
+        private static void Outcomming(Package package)
+        {
+            outgoingPackages.Add(package);
+            //incommingPackages.Remove(package);
+            priorityQueue.Dequeue(package);
         }
     }
 }
