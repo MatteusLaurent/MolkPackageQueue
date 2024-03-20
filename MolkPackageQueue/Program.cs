@@ -37,14 +37,14 @@
                 if (priorityQueue.Count <= 0) break;
             }
 
-            Console.WriteLine("-- Send remaining --");
+            Console.WriteLine("-- Dequeue remaining --");
             int count = 1;
             while (priorityQueue.Count > 0)
             {
                 Package? package = priorityQueue.Next();
                 if (package != null)
                 {
-                    Console.WriteLine($"# {count++}, Priority: {package.Priority}, Payload: {package.Payload}");
+                    Console.WriteLine($"Dequeue: # {count++}, Priority: {package.Priority}, Payload: {package.Payload}");
                     Outcomming(package);
                 }
             }
