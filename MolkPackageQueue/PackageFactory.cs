@@ -8,11 +8,11 @@ namespace MolkPackageQueue
 {
     class PackageFactory
     {
-        Random randomizer = new Random();
-        public Package CreatePackage(Priority prio)
+        static Random randomizer = new Random();
+        public static Package CreatePackage()
         {
-            //use randomizer to send in a prio-enum
-            return new Package(prio);
+            var values = Enum.GetValues<Priority>();
+            return new Package(values[randomizer.Next(values.Length)]);
         }
     }
 }
