@@ -13,7 +13,7 @@ namespace MolkPackageQueue
         Queue<Package> queueLow = new Queue<Package>();
 
         public List<Package> incommingPackageList = new List<Package>();
-        public List<Package> prioritizedOutgoingPackage = new List<Package>();
+        public List<Package> outgoingPackageList = new List<Package>();
 
         public void Enqueue(Package package)
         {
@@ -41,7 +41,7 @@ namespace MolkPackageQueue
 
             }
         }
-        public Package Dequeue()
+        public void Dequeue()
         {
             Package package = null;
             if (queueHigh.Count > 0)
@@ -58,13 +58,12 @@ namespace MolkPackageQueue
             }
             if (package != null)
             {
-                prioritizedOutgoingPackage.Add(package);
+                outgoingPackageList.Add(package);
             }
-            return package;
         }
 
         public void PrintLogList(List<Package> packageList) 
-        { 
+        {
             foreach (Package package in packageList)
             {
                 Console.WriteLine($"Package ID: {package.Payload.PackageName}, Priority: {package.Priority}");

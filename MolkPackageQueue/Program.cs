@@ -11,7 +11,7 @@
             Console.WriteLine("Incoming Packages:");
             prioqueue.PrintLogList(prioqueue.incommingPackageList);
             Console.WriteLine("\nHandled Packages:");
-            prioqueue.PrintLogList(prioqueue.prioritizedOutgoingPackage);
+            prioqueue.PrintLogList(prioqueue.outgoingPackageList);
 
         }
 
