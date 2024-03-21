@@ -15,34 +15,106 @@ namespace MolkPackageQueue
         List<Package> incommingPackageList = new List<Package>();
         List<Package> prioritizedOutgoingPackage = new List<Package>();
 
+        public int LengthOfqueueLow()
+        {
+            return this.queueLow.Count;
+        }
+
         public void Enqueue(Package package)
         {
-            switch (package.Priority) 
+            switch (package.Priority)
             {
                 case Priority.Low: queueLow.Enqueue(package);
-                    { 
+                    {
                         incommingPackageList.Add(package);
-                        break; 
+                        break;
                     }
                 case Priority.Medium: queueMedium.Enqueue(package);
                     {
                         incommingPackageList.Add(package);
-                        break; 
+                        break;
                     }
                 case Priority.High: queueHigh.Enqueue(package);
                     {
                         incommingPackageList.Add(package);
-                        break; 
+                        break;
                     }
                 default: break;
 
             }
         }
-        public void Dequeue(Package package)
+
+        public void Dequeue()
         {
-            
+            if (queueHigh.Count > 0)
+            {           
+                Package packageDequeued = queueHigh.Dequeue();
+                prioritizedOutgoingPackage.Add(packageDequeued);
+            }
+            else if (queueMedium.Count > 0)
+            {
+                Package packageDequeued = queueMedium.Dequeue();
+                prioritizedOutgoingPackage.Add(packageDequeued);
+            }
+            else if (queueLow.Count > 0)
+            {
+                Package packageDequeued = queueLow.Dequeue();
+                prioritizedOutgoingPackage.Add(packageDequeued);
+            }
+            else
+            {
+                //All queues are empty
+            }
         }
 
-        public void PrintLogList(List<Package> packageList) { }
+        //Test print
+        public void PrintList(Package package)
+        {
+            Console.WriteLine(package.Priority);
+            Console.WriteLine(package.Payload.PackageName);
+        }
+        //Test print
+        public void PrintList(int index)
+        {
+            Console.WriteLine(incommingPackageList[index].Priority);
+            Console.WriteLine(incommingPackageList[index].Payload.PackageName);
+        }
+
+        //Test print
+        public void PrintList()
+        {
+            Console.WriteLine($"queueHigh: {queueHigh.Count}");
+            Console.WriteLine($"queueMedium: {queueMedium.Count}");
+            Console.WriteLine($"queueLow: {queueLow.Count}");
+        }
+
+        public void PrintLogList() 
+        {
+            Console.WriteLine($"-------------------------------------------------");
+            Console.WriteLine($"Number of elements in incommingPackageList: {incommingPackageList.Count}");
+            Console.WriteLine($"Number of elements in prioritizedOutgoingPackage: {prioritizedOutgoingPackage.Count}");
+            Console.WriteLine($"-------------------------------------------------");
+            Console.WriteLine($"Elements in incommingPackageList:");
+            Console.WriteLine($"-------------------------------------------------");
+            Console.WriteLine($"Queue number:   Name:           Priority");
+            int i = 1;
+            foreach (Package package in incommingPackageList)
+            {
+                Console.Write($"{i}\t\t{package.Payload.PackageName} \t");
+                Console.WriteLine(package.Priority);
+                i++;
+            }
+            Console.WriteLine($"-------------------------------------------------");
+            Console.WriteLine($"Elements in prioritizedOutgoingPackage:");
+            Console.WriteLine($"-------------------------------------------------");
+            Console.WriteLine($"Queue number:   Name:           Priority");
+            i = 1;
+            foreach (Package package in prioritizedOutgoingPackage)
+            {
+                Console.Write($"{i}\t\t{package.Payload.PackageName} \t");
+                Console.WriteLine(package.Priority);
+                i++;
+            }
+        }
     }
 }
