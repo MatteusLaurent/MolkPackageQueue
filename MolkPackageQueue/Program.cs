@@ -1,21 +1,64 @@
-﻿namespace MolkPackageQueue
+﻿using System.Diagnostics;
+
+namespace MolkPackageQueue
 {
     internal class Program
     {
+        static Random random = new Random();
         static void Main(string[] args)
         {
-            Console.WriteLine("Implement MPS");
-            PriorityQueue prioqueue = new PriorityQueue();
+            PriorityQueue priorityQueue = new PriorityQueue();
             PackageFactory packageFactory = new PackageFactory();
-            //Skapa 1-10 paket och köa dem (enligt nedan)
-            prioqueue.Enqueue(packageFactory.CreatePackage());
-            //avköa 1-5 paket med dequeue
-            //Fortsätt tills minst 50 skapade och sedan till köer tomma.
-            // Create a function and dequeue packages according to the rules. 
-            // Don´t forget the logging lists
-            // Print log for packages created in order of creation, with payload packageName and package priority
-            // Print log for packages handled (dequeue and add to logg), same content as above.
-            // No high prio should be in bottom of handled list, alla paket som skapas ska finnas i hanterad-listan.
+            bool packageHandlingIsDone = false;
+            Console.WriteLine("Implement MPS");
+            while (!packageHandlingIsDone)
+            {
+                if (priorityQueue.ListOfIncomingPackages.Count < 50) GenerateIncomingPackages(priorityQueue, packageFactory);
+                HandleOutgoingPackages(priorityQueue);
+                //DebugOutput(priorityQueue);
+                packageHandlingIsDone = priorityQueue.NumberOfPackagesInQueue == 0 && priorityQueue.ListOfIncomingPackages.Count >= 50;
+            }
+            Console.WriteLine($"\n{priorityQueue.ListOfIncomingPackages.Count} incoming packages:");
+            priorityQueue.PrintLogList(priorityQueue.ListOfIncomingPackages);
+            Console.WriteLine($"\n{priorityQueue.ListOfOutgoingPackages.Count} outgoing packages:");
+            priorityQueue.PrintLogList(priorityQueue.ListOfOutgoingPackages);
+        }
+
+        /// <summary>
+        /// Generates a random number of incoming <see cref="Package"/>s and enqueues them to the <paramref name="priorityQueue"/>
+        /// </summary>
+        /// <param name="priorityQueue">The <see cref="PriorityQueue"/> to enqueue the packages to</param>
+        /// <param name="packageFactory">The <see cref="PackageFactory"/> to create the packages</param>
+        private static void GenerateIncomingPackages(PriorityQueue priorityQueue, PackageFactory packageFactory)
+        {
+            for (int i = 0; i < random.Next(1, 11); i++)
+            {
+                priorityQueue.Enqueue(packageFactory.CreatePackage());
+            }
+        }
+
+        /// <summary>
+        /// Dequeues a random number of packages from the <paramref name="priorityQueue"/>
+        /// </summary>
+        /// <param name="priorityQueue">The <see cref="PriorityQueue"/> to dequeue the packages from</param>
+        private static void HandleOutgoingPackages(PriorityQueue priorityQueue)
+        {
+            for (int i = 0; i < random.Next(1, 6); i++)
+            {
+                if (priorityQueue.NumberOfPackagesInQueue > 0) priorityQueue.Dequeue();
+            }
+        }
+
+        /// <summary>
+        /// Outputs debug information about the <paramref name="priorityQueue"/>
+        /// </summary>
+        private static void DebugOutput(PriorityQueue priorityQueue)
+        {
+            Debug.WriteLine($"Number of packages in queue: {priorityQueue.NumberOfPackagesInQueue}");
+            Debug.WriteLine($"Number of outgoing packages: {priorityQueue.ListOfOutgoingPackages.Count}");
+            Debug.WriteLine($"Number of incoming packages: {priorityQueue.ListOfIncomingPackages.Count}");
+            Debug.WriteLine(priorityQueue.NumberOfPackagesInQueue == 0);
+            Debug.WriteLine(priorityQueue.ListOfIncomingPackages.Count > 50);
         }
     }
 }
