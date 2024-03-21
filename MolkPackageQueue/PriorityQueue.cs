@@ -12,37 +12,68 @@ namespace MolkPackageQueue
         Queue<Package> queueMedium = new Queue<Package>();
         Queue<Package> queueLow = new Queue<Package>();
 
-        List<Package> incommingPackageList = new List<Package>();
-        List<Package> prioritizedOutgoingPackage = new List<Package>();
+        public List<Package> incommingPackageList = new List<Package>();
+        public List<Package> prioritizedOutgoingPackage = new List<Package>();
 
         public void Enqueue(Package package)
         {
-            switch (package.Priority) 
+            switch (package.Priority)
             {
-                case Priority.Low: queueLow.Enqueue(package);
-                    { 
-                        incommingPackageList.Add(package);
-                        break; 
-                    }
-                case Priority.Medium: queueMedium.Enqueue(package);
+                case Priority.Low:
+                    queueLow.Enqueue(package);
                     {
                         incommingPackageList.Add(package);
-                        break; 
+                        break;
                     }
-                case Priority.High: queueHigh.Enqueue(package);
+                case Priority.Medium:
+                    queueMedium.Enqueue(package);
                     {
                         incommingPackageList.Add(package);
-                        break; 
+                        break;
+                    }
+                case Priority.High:
+                    queueHigh.Enqueue(package);
+                    {
+                        incommingPackageList.Add(package);
+                        break;
                     }
                 default: break;
 
             }
         }
-        public void Dequeue(Package package)
+        public Package Dequeue()
         {
-            
+            Package package = null;
+            if (queueHigh.Count > 0)
+            {
+                package = queueHigh.Dequeue();
+            }
+            else if (queueMedium.Count > 0)
+            { 
+                package = queueMedium.Dequeue(); 
+            }
+            else if (queueLow.Count > 0)
+            {
+                package = queueLow.Dequeue();
+            }
+            if (package != null)
+            {
+                prioritizedOutgoingPackage.Add(package);
+            }
+            return package;
         }
 
-        public void PrintLogList(List<Package> packageList) { }
+        public void PrintLogList(List<Package> packageList) 
+        { 
+            foreach (Package package in packageList)
+            {
+                Console.WriteLine($"Package ID: {package.Payload.PackageName}, Priority: {package.Priority}");
+            }
+        }
+
+        public bool IsEmpty()
+        {
+            return queueHigh.Count == 0 && queueMedium.Count == 0 && queueLow.Count == 0;
+        }
     }
 }

@@ -4,18 +4,55 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Implement MPS");
             PriorityQueue prioqueue = new PriorityQueue();
+
+            PackageHandler(prioqueue);
+
+            Console.WriteLine("Incoming Packages:");
+            prioqueue.PrintLogList(prioqueue.incommingPackageList);
+            Console.WriteLine("\nHandled Packages:");
+            prioqueue.PrintLogList(prioqueue.prioritizedOutgoingPackage);
+
+        }
+
+        private static void PackageHandler(PriorityQueue prioqueue)
+        {
+            int totalPackages = 0;
+            Random random = new Random();
             PackageFactory packageFactory = new PackageFactory();
-            //Skapa 1-10 paket och köa dem (enligt nedan)
-            prioqueue.Enqueue(packageFactory.CreatePackage());
-            //avköa 1-5 paket med dequeue
-            //Fortsätt tills minst 50 skapade och sedan till köer tomma.
-            // Create a function and dequeue packages according to the rules. 
-            // Don´t forget the logging lists
-            // Print log for packages created in order of creation, with payload packageName and package priority
-            // Print log for packages handled (dequeue and add to logg), same content as above.
-            // No high prio should be in bottom of handled list, alla paket som skapas ska finnas i hanterad-listan.
+            while (totalPackages < 50)
+            {
+                int creationQueue = random.Next(1, 11);
+                for (int i = 0; i < creationQueue; i++)
+                {
+                    Package newPackage = packageFactory.CreatePackage();
+                    prioqueue.Enqueue(newPackage);
+                    totalPackages++;
+                }
+
+                int packagesToDequeue = random.Next(1, 6);
+                for (int i = 0; i < packagesToDequeue; i++)
+                {
+                    if (prioqueue.IsEmpty())
+                    {
+                        break;
+                    }
+                    prioqueue.Dequeue();
+                }
+            }
+            while (!prioqueue.IsEmpty())
+            {
+                int packagesToDequeue = random.Next(1, 6);
+                for (int i = 0; i < packagesToDequeue; i++)
+                {
+                    if (prioqueue.IsEmpty())
+                    {
+                        break;
+                    }
+                    prioqueue.Dequeue();
+                }
+
+            }
         }
     }
 }
