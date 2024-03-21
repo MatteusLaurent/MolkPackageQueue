@@ -26,6 +26,24 @@ namespace MolkPackageQueue
 
     public class Payload 
     {
-        string packageName = string.Empty; //Replace with a random name (string of letters) for each instance
+        public string PackageName { get; private set; }
+
+        public Payload()
+        {
+            PackageName = GetRandomName();
+        }
+
+        private string GetRandomName()
+        {
+            Random random = new Random();
+            int nameLength = 8;
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvxyzåäö1234567890!#¤%&/=?@£$€§½";
+            char[] name = new char[nameLength];
+            for (int i = 0; i < nameLength; i++)
+            {
+                name[i] = chars[random.Next(chars.Length)];
+            }
+            return new string(name);
+        }
     }
 }
