@@ -9,6 +9,8 @@
             PackageFactory packageFactory = new PackageFactory();
             int number_of_packages = 0;
 
+            //Fortsätt tills minst 50 skapade och sedan till köer tomma.
+            // Create a function and dequeue packages according to the rules. 
             while (number_of_packages < 50)
             {
                 //Skapa 1-10 paket och köa dem (enligt nedan)
@@ -18,28 +20,23 @@
                 {
                     Package newPackage = packageFactory.CreatePackage();
                     prioqueue.Enqueue(newPackage);
-                    //prioqueue.PrintList(newPackage);
                 }
-                //prioqueue.PrintList();
 
                 //avköa 1-5 paket med dequeue
                 random_number_of_packages = new Random().Next(1, 5);
                 for (int i = 0; i < random_number_of_packages; i++)
                 {
                     prioqueue.Dequeue();
-                    //prioqueue.PrintList(i);
                 }
-                //prioqueue.PrintList();
             }
 
+            //avköa resten med dequeue
             while (prioqueue.LengthOfqueueLow() > 0)
             {
                 prioqueue.Dequeue();
-                //prioqueue.PrintList();
             }
 
-            //Fortsätt tills minst 50 skapade och sedan till köer tomma.
-            // Create a function and dequeue packages according to the rules. 
+            
             // Don´t forget the logging lists
             // Print log for packages created in order of creation, with payload packageName and package priority
             // Print log for packages handled (dequeue and add to logg), same content as above.

@@ -40,7 +40,6 @@ namespace MolkPackageQueue
                         break;
                     }
                 default: break;
-
             }
         }
 

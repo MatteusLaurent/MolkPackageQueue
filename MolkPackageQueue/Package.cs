@@ -32,7 +32,6 @@ namespace MolkPackageQueue
         public String PackageName
         {
             get { return packageName; }
-            set { packageName = value; }
         }
 
         private static String GetPackageName()
@@ -53,11 +52,9 @@ namespace MolkPackageQueue
 
                 // Appending the character at the  
                 // index to the random string. 
-                ran = ran + str[x]; 
-              
+                ran = ran + str[x];  
             }
             return ran;
         }      
-       
     }
 }
