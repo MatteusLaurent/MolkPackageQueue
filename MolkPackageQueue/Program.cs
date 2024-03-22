@@ -4,13 +4,39 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Implement MPS");
-            // Instantiate the MPS-PriorityQueue
-            // Create a function to queue and dequeue packages according to the rules. 
-            // Don´t forget the logging lists
-            // Print log for packages created in order of creation, with payload packageName and package priority
-            // Print log for packages handled (dequeue and add to logg), same content as above.
-            // No high prio should be in bottom of handled list, alla paket som skapas ska finnas i hanterad-listan.
+            PriorityQueue prioqueue = new PriorityQueue();
+            PackageFactory packageFactory = new PackageFactory();
+
+            int totalPackagesCreated = 0;
+
+            while (totalPackagesCreated < 50)
+            {
+                int numToCreate = Math.Min(new Random().Next(1, 11), 50 - totalPackagesCreated);
+                for (int i = 0; i < numToCreate; i++)
+                {
+                    prioqueue.Enqueue(packageFactory.CreatePackage());
+                    totalPackagesCreated++;
+                }
+            }
+
+            while (!prioqueue.IsEmpty())
+            {
+                int numToDequeue = new Random().Next(1, 6);
+                for (int i = 0; i < numToDequeue; i++)
+                {
+                    Package dequeuedPackage = prioqueue.Dequeue();
+                    if (dequeuedPackage != null)
+                    {
+                        Console.WriteLine($"Dequeued package: Priority - {dequeuedPackage.Priority}, Payload - {dequeuedPackage.Payload.PackageName}");
+                    }
+                }
+            }
+
+            Console.WriteLine("\nLog for packages created:");
+            prioqueue.PrintLogList(prioqueue.GetIncomingPackageList());
+
+            Console.WriteLine("\nLog for packages handled:");
+            prioqueue.PrintLogList(prioqueue.GetPrioritizedOutgoingPackage());
         }
     }
 }
