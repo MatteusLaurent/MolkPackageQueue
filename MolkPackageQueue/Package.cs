@@ -17,15 +17,15 @@ namespace MolkPackageQueue
         public Payload Payload { get; }
     }
 
-    public enum Priority 
-    { 
-        Low = 0, 
-        Medium = 1, 
-        High = 2 
+    public enum Priority
+    {
+        Low = 0,
+        Medium = 1,
+        High = 2
     }
 
-    public class Payload 
+    public class Payload
     {
-        string packageName = string.Empty; //Replace with a random name (string of letters) for each instance
+        public string PackageName { get; } = Guid.NewGuid().ToString();
     }
 }
