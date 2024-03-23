@@ -38,11 +38,61 @@ namespace MolkPackageQueue
 
             }
         }
-        public void Dequeue(Package package)
+        public void Dequeue()
         {
-            
+            Package temp;
+            if(queueHigh.Count > 0)
+            {
+                temp = queueHigh.Dequeue();
+                prioritizedOutgoingPackage.Add(temp);
+                    
+            }
+            else if(queueMedium.Count > 0)
+            {
+                temp = queueMedium.Dequeue();
+                prioritizedOutgoingPackage.Add(temp);
+            }
+            else if(queueLow.Count > 0)
+            {
+                temp = queueLow.Dequeue();
+                prioritizedOutgoingPackage.Add(temp);
+            }
+            else
+            {
+                Console.WriteLine("queue is empty");
+            }
         }
 
-        public void PrintLogList(List<Package> packageList) { }
+        public void printIncoming()
+        {
+            Console.WriteLine("--------- Incoming ----------\n");
+            foreach(var package in incommingPackageList)
+            {
+                Console.WriteLine(package.Payload.PackageName + $"\nPackagePriority: {package.Priority}");
+                Console.WriteLine();
+            }
+        }
+
+        public void printOutgoing()
+        {
+            Console.WriteLine("--------- Outgoing ----------\n");
+            foreach (var package in prioritizedOutgoingPackage)
+            {
+                Console.WriteLine(package.Payload.PackageName + $"\nPackagePriority: {package.Priority}");
+                Console.WriteLine();
+            }
+        }
+
+        public bool queueIsEmpty()
+        {
+            if (queueLow.Count == 0 && queueMedium.Count == 0 && queueHigh.Count == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

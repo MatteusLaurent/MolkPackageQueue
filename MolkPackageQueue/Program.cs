@@ -4,18 +4,31 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Implement MPS");
             PriorityQueue prioqueue = new PriorityQueue();
             PackageFactory packageFactory = new PackageFactory();
-            //Skapa 1-10 paket och köa dem (enligt nedan)
-            prioqueue.Enqueue(packageFactory.CreatePackage());
+            //skapar och köar 10 paket
+            for (int i = 0; i < 10;  i++)
+            {
+                prioqueue.Enqueue(packageFactory.CreatePackage());
+            }
+            prioqueue.printIncoming();
             //avköa 1-5 paket med dequeue
+            for (int i = 0; i < 5; i++)
+            {
+                prioqueue.Dequeue();
+            }
+            prioqueue.printOutgoing();
             //Fortsätt tills minst 50 skapade och sedan till köer tomma.
-            // Create a function and dequeue packages according to the rules. 
-            // Don´t forget the logging lists
-            // Print log for packages created in order of creation, with payload packageName and package priority
-            // Print log for packages handled (dequeue and add to logg), same content as above.
-            // No high prio should be in bottom of handled list, alla paket som skapas ska finnas i hanterad-listan.
+            for (int i = 0; i < 50; i++)
+            {
+                prioqueue.Enqueue(packageFactory.CreatePackage());
+            }
+            while(prioqueue.queueIsEmpty() == false)
+            {
+                prioqueue.Dequeue();
+            }
+            prioqueue.printIncoming();
+            prioqueue.printOutgoing();
         }
     }
 }

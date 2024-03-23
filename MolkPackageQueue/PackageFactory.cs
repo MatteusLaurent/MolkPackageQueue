@@ -8,10 +8,6 @@ namespace MolkPackageQueue
 {
     public class PackageFactory
     {
-        /// <summary>
-        /// Randomizes an int between 0,2
-        /// </summary>
-        /// <returns>Priority enum value low, medium or high</returns>
         public Priority GetRandomPriority() 
         {
             Random randomizer = new Random();
