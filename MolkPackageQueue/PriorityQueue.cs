@@ -24,17 +24,20 @@ namespace MolkPackageQueue
         {
             switch (package.Priority)
             {
-                case Priority.Low: queueLow.Enqueue(package);
+                case Priority.Low:
+                    queueLow.Enqueue(package);
                     {
                         incommingPackageList.Add(package);
                         break;
                     }
-                case Priority.Medium: queueMedium.Enqueue(package);
+                case Priority.Medium:
+                    queueMedium.Enqueue(package);
                     {
                         incommingPackageList.Add(package);
                         break;
                     }
-                case Priority.High: queueHigh.Enqueue(package);
+                case Priority.High:
+                    queueHigh.Enqueue(package);
                     {
                         incommingPackageList.Add(package);
                         break;
@@ -46,7 +49,7 @@ namespace MolkPackageQueue
         public void Dequeue()
         {
             if (queueHigh.Count > 0)
-            {           
+            {
                 Package packageDequeued = queueHigh.Dequeue();
                 prioritizedOutgoingPackage.Add(packageDequeued);
             }
@@ -87,28 +90,26 @@ namespace MolkPackageQueue
             Console.WriteLine($"queueLow: {queueLow.Count}");
         }
 
-        public void PrintLogList() 
+        public void PrintLogList()
         {
+            Console.WriteLine("Mölk Package Service");
             Console.WriteLine($"-------------------------------------------------");
             Console.WriteLine($"Number of elements in incommingPackageList: {incommingPackageList.Count}");
             Console.WriteLine($"Number of elements in prioritizedOutgoingPackage: {prioritizedOutgoingPackage.Count}");
+          
+            PrintLogListHelper(incommingPackageList);
+            PrintLogListHelper(prioritizedOutgoingPackage);
+        }
+
+        public void PrintLogListHelper(List<Package> ListOfPackageToPrint)
+        {
             Console.WriteLine($"-------------------------------------------------");
-            Console.WriteLine($"Elements in incommingPackageList:");
+            Console.WriteLine($"Elements in {nameof(ListOfPackageToPrint)}:");
             Console.WriteLine($"-------------------------------------------------");
             Console.WriteLine($"Queue number:   Name:           Priority");
+
             int i = 1;
-            foreach (Package package in incommingPackageList)
-            {
-                Console.Write($"{i}\t\t{package.Payload.PackageName} \t");
-                Console.WriteLine(package.Priority);
-                i++;
-            }
-            Console.WriteLine($"-------------------------------------------------");
-            Console.WriteLine($"Elements in prioritizedOutgoingPackage:");
-            Console.WriteLine($"-------------------------------------------------");
-            Console.WriteLine($"Queue number:   Name:           Priority");
-            i = 1;
-            foreach (Package package in prioritizedOutgoingPackage)
+            foreach (Package package in ListOfPackageToPrint)
             {
                 Console.Write($"{i}\t\t{package.Payload.PackageName} \t");
                 Console.WriteLine(package.Priority);

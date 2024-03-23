@@ -27,7 +27,6 @@ namespace MolkPackageQueue
     public class Payload 
     {
         String packageName = GetPackageName();
-        //string packageName = string.Empty; //Replace with a random name (string of letters) for each instance
 
         public String PackageName
         {
