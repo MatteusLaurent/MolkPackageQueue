@@ -26,6 +26,15 @@ namespace MolkPackageQueue
 
     public class Payload 
     {
-        string packageName = string.Empty; //Replace with a random name (string of letters) for each instance
+        static List<string> sender = new List<string> { "Tele 2", "Lyreco", "CDON", "INET", "MediaMarkt", "Clas ohlsson", "IKEA", "Webhallen", "Netonet", "kjell o company" };
+        static Random random = new Random();
+
+        public Payload()
+        {
+            int randomIndex = random.Next(0, sender.Count);
+            PackageName = $"Sender: {sender[randomIndex]}\nPackageID: {Guid.NewGuid()}";
+        }
+
+        public string PackageName { get; }
     }
 }

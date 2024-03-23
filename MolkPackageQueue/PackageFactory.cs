@@ -6,13 +6,17 @@ using System.Threading.Tasks;
 
 namespace MolkPackageQueue
 {
-    class PackageFactory
+    public class PackageFactory
     {
-        Random randomizer = new Random();
-        public Package CreatePackage(Priority prio)
+        public Priority GetRandomPriority() 
         {
-            //use randomizer to send in a prio-enum
-            return new Package(prio);
+            Random randomizer = new Random();
+            return (Priority)randomizer.Next(0,3); 
+        }
+        
+        public Package CreatePackage()
+        {           
+            return new Package(GetRandomPriority());
         }
     }
 }
