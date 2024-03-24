@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -97,22 +98,26 @@ namespace MolkPackageQueue
             Console.WriteLine($"Number of elements in incommingPackageList: {incommingPackageList.Count}");
             Console.WriteLine($"Number of elements in prioritizedOutgoingPackage: {prioritizedOutgoingPackage.Count}");
           
-            PrintLogListHelper(incommingPackageList);
-            PrintLogListHelper(prioritizedOutgoingPackage);
+            PrintLogListHelper(incommingPackageList, "incommingPackageList", false);
+            PrintLogListHelper(prioritizedOutgoingPackage, "prioritizedOutgoingPackage", true);
         }
 
-        public void PrintLogListHelper(List<Package> ListOfPackageToPrint)
+        public void PrintLogListHelper(List<Package> ListOfPackageToPrint,string listName, bool Out)
         {
             Console.WriteLine($"-------------------------------------------------");
-            Console.WriteLine($"Elements in {nameof(ListOfPackageToPrint)}:");
+            Console.WriteLine($"Elements in {listName}:");
+            //Console.WriteLine($"Elements in {ListOfPackageToPrint.GetType().GetMethods()}:");
             Console.WriteLine($"-------------------------------------------------");
-            Console.WriteLine($"Queue number:   Name:           Priority");
-
+            if(Out) Console.WriteLine($"Queue number:   Name:           Priority:       Queue number in incommingPackageList: ");
+            else Console.WriteLine($"Queue number:   Name:           Priority:");
+            
             int i = 1;
             foreach (Package package in ListOfPackageToPrint)
             {
                 Console.Write($"{i}\t\t{package.Payload.PackageName} \t");
-                Console.WriteLine(package.Priority);
+                Console.Write(package.Priority);
+                if (Out) Console.WriteLine($" \t\t{1 + incommingPackageList.FindIndex(r => r.Payload.PackageName == package.Payload.PackageName)}");
+                else Console.WriteLine("");
                 i++;
             }
         }
