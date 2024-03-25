@@ -8,6 +8,8 @@ namespace MolkPackageQueue
 {
     public class PackageFactory
     {
+        public static int NrOfCreatedPackages;
+
         /// <summary>
         /// Randomizes an int between 0,2
         /// </summary>
@@ -17,9 +19,13 @@ namespace MolkPackageQueue
             Random randomizer = new Random();
             return (Priority)randomizer.Next(0,3); 
         }
-        
+        /// <summary>
+        /// Creates an Package of random priority
+        /// </summary>
+        /// <returns>Package Object</returns>
         public Package CreatePackage()
-        {           
+        {
+            NrOfCreatedPackages++;
             return new Package(GetRandomPriority());
         }
     }
