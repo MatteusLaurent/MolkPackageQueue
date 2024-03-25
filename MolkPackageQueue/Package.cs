@@ -26,6 +26,18 @@ namespace MolkPackageQueue
 
     public class Payload 
     {
-        string packageName = string.Empty; //Replace with a random name (string of letters) for each instance
+        /* Static counter to keep track of the order of the packages.
+        Alternatively, GUIDs or random integers could have been used for more randomness. */
+
+        private static int packageCounter = 1;
+        private string packageName;
+        public Payload() 
+        { 
+            packageName = $"package_{packageCounter++}";
+        }
+        public override string ToString()
+        {
+            return packageName;
+        }
     }
 }
