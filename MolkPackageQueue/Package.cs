@@ -26,6 +26,21 @@ namespace MolkPackageQueue
 
     public class Payload 
     {
-        string packageName = string.Empty; //Replace with a random name (string of letters) for each instance
+        string packageName = RandomName();
+        private static string RandomName()
+        {
+            Random random = new Random();
+            string name = String.Empty;
+            for (int i = 0; i < random.Next(3,21); i++)
+            {
+                name += (char)random.Next('a','z');
+            }
+            return name;
+        }
+
+        public override string? ToString()
+        {
+            return packageName;
+        }
     }
 }
