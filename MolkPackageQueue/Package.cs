@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MolkPackageQueue
 {
-    public class Package
+    public class Package : IComparable<Package>
     {
         public Package(Priority priority)
         {
@@ -15,6 +15,20 @@ namespace MolkPackageQueue
         }
         public Priority Priority { get; }
         public Payload Payload { get; }
+
+        public int CompareTo(Package? other)
+        {
+
+            if (Priority < other.Priority)
+            {
+                return -1;
+            }
+            else if (Priority > other.Priority)
+            {
+                return 1;
+            }
+            return 0;
+        }
     }
 
     public enum Priority 
@@ -23,6 +37,8 @@ namespace MolkPackageQueue
         Medium = 1, 
         High = 2 
     }
+
+    
 
     public class Payload 
     {
