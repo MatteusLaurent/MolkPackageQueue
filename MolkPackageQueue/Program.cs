@@ -3,39 +3,46 @@ namespace MolkPackageQueue
 {
     internal class Program
     {
-        static Random random = new Random();
+        static readonly Random random = new();
         static void Main(string[] args)
         {
-            PackageFactory packageFactory = new PackageFactory();
-            Queue<Package> queue = new Queue<Package>();
-            PriorityQueue prioqueue = new PriorityQueue();
-            //List<Package> incoming = new List<Package>();
-            List<Package> packages = new List<Package>();
-            List<Package> delivered = new List<Package>();
+            if (args is null)
+            {
+                throw new ArgumentNullException(nameof(args));
+            }
 
-            //Skapa 1-10 paket och köa dem (enligt nedan)
+            PackageFactory packageFactory = new PackageFactory();
+            PriorityQueue prioqueue = new PriorityQueue();
+
             while (PackageFactory.NrOfCreatedPackages < 50)
             {
-                CreateRandomAmountOfPackages(packageFactory, prioqueue);
+                CreateRandomAmountOfPackages(packageFactory, prioqueue, 4);
                 SendRandomAmountOfPackages(prioqueue);
             }
 
             while (PriorityQueue.NrOfPackagesSent < 50)
                 SendRandomAmountOfPackages(prioqueue);
 
+            WriteOutReport(prioqueue);
+        }
+
+        private static void WriteOutReport(PriorityQueue prioqueue)
+        {
+            WriteLine("\n    --- Incoming ---");
             prioqueue.PrintLogList(prioqueue.IncommingPackageList);
-            WriteLine();
+
+            WriteLine("\n    --- Outgoing ---");
             prioqueue.PrintLogList(prioqueue.PrioritizedOutgoingPackage);
 
-            //avköa 1-5 paket med dequeue
+            List<Package> in_sorted = prioqueue.IncommingPackageList;
+            in_sorted.Sort();
+            WriteLine("\n    --- Sorted Incoming ---");
+            prioqueue.PrintLogList(in_sorted);
 
-            //Fortsätt tills minst 50 skapade och sedan till köer tomma.
-
-
-            // Don´t forget the logging lists
-            // Print log for packages created in order of creation, with payload packageName and package priority
-            // Print log for packages handled (dequeue and add to logg), same content as above.
-            // No high prio should be in bottom of handled list, alla paket som skapas ska finnas i hanterad-listan.
+            List<Package> out_sorted = prioqueue.PrioritizedOutgoingPackage;
+            out_sorted.Sort();
+            WriteLine("\n    --- Sorted Outgoing ---");
+            prioqueue.PrintLogList(out_sorted);
         }
 
         private static void SendRandomAmountOfPackages(PriorityQueue prioqueue, int max = 5)

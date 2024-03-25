@@ -19,7 +19,10 @@ namespace MolkPackageQueue
             Random randomizer = new Random();
             return (Priority)randomizer.Next(0,3); 
         }
-        
+        /// <summary>
+        /// Creates an Package of random priority
+        /// </summary>
+        /// <returns>Package Object</returns>
         public Package CreatePackage()
         {
             NrOfCreatedPackages++;
