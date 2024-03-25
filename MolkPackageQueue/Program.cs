@@ -8,12 +8,11 @@ namespace MolkPackageQueue
         static void Main(string[] args)
         {
             PriorityQueue priorityQueue = new PriorityQueue();
-            PackageFactory packageFactory = new PackageFactory();
             bool packageHandlingIsDone = false;
             Console.WriteLine("Implement MPS");
             while (!packageHandlingIsDone)
             {
-                if (priorityQueue.ListOfIncomingPackages.Count < 50) GenerateIncomingPackages(priorityQueue, packageFactory);
+                if (priorityQueue.ListOfIncomingPackages.Count < 50) GenerateIncomingPackages(priorityQueue);
                 HandleOutgoingPackages(priorityQueue);
                 //DebugOutput(priorityQueue);
                 packageHandlingIsDone = priorityQueue.NumberOfPackagesInQueue == 0 && priorityQueue.ListOfIncomingPackages.Count >= 50;
@@ -28,12 +27,11 @@ namespace MolkPackageQueue
         /// Generates a random number of incoming <see cref="Package"/>s and enqueues them to the <paramref name="priorityQueue"/>
         /// </summary>
         /// <param name="priorityQueue">The <see cref="PriorityQueue"/> to enqueue the packages to</param>
-        /// <param name="packageFactory">The <see cref="PackageFactory"/> to create the packages</param>
-        private static void GenerateIncomingPackages(PriorityQueue priorityQueue, PackageFactory packageFactory)
+        private static void GenerateIncomingPackages(PriorityQueue priorityQueue)
         {
             for (int i = 0; i < random.Next(1, 11); i++)
             {
-                priorityQueue.Enqueue(packageFactory.CreatePackage());
+                priorityQueue.Enqueue(PackageFactory.CreatePackage());
             }
         }
 

@@ -14,7 +14,14 @@ namespace MolkPackageQueue
 
         public List<Package> ListOfIncomingPackages = new List<Package>();
         public List<Package> ListOfOutgoingPackages = new List<Package>();
-        public int NumberOfPackagesInQueue;
+        /// <summary>
+        /// The total number of packages in the low, medium and high priority queues
+        /// </summary>
+        public int NumberOfPackagesInQueue
+        {
+            get => queueLow.Count + queueMedium.Count + queueHigh.Count;
+            private set { }
+        }
 
         /// <summary>
         /// Enqueues a package to the correct queue based on the priority of the package
@@ -25,33 +32,32 @@ namespace MolkPackageQueue
             switch (package.Priority)
             {
                 case Priority.Low: queueLow.Enqueue(package); break;
-                case Priority.Medium:queueMedium.Enqueue(package); break;
+                case Priority.Medium: queueMedium.Enqueue(package); break;
                 case Priority.High: queueHigh.Enqueue(package); break;
                 default: break;
             }
             ListOfIncomingPackages.Add(package);
-            NumberOfPackagesInQueue++;
         }
 
         /// <summary>
         /// Dequeues a <see cref="Package"/> from the highest priority queue available
         /// </summary>
-        public void Dequeue()
+        public Package Dequeue()
         {
             // Checks the queues in order of priority; high --> medium --> low
             Package? package = queueHigh.Count > 0 ? queueHigh.Dequeue() : queueMedium.Count > 0 ? queueMedium.Dequeue() : queueLow.Count > 0 ? queueLow.Dequeue() : null;
             if (package != null)
             {
                 ListOfOutgoingPackages.Add(package);
-                NumberOfPackagesInQueue--;
             }
+            return package;
         }
 
         /// <summary>
         /// Prints the log of <see cref="Package"/>s in <paramref name="packageList"/>
         /// </summary>
         /// <param name="packageList">The list of packages to be printed</param>
-        public void PrintLogList(List<Package> packageList) 
+        public void PrintLogList(List<Package> packageList)
         {
             foreach (Package package in packageList)
             {
