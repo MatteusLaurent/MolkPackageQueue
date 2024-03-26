@@ -38,11 +38,38 @@ namespace MolkPackageQueue
 
             }
         }
-        public void Dequeue(Package package)
+        public void Dequeue()
         {
-            
+            if (queueHigh.Count > 0) prioritizedOutgoingPackage.Add(queueHigh.Dequeue());
+            else if (queueMedium.Count > 0) prioritizedOutgoingPackage.Add(queueMedium.Dequeue());
+            else if (queueLow.Count > 0) prioritizedOutgoingPackage.Add(queueLow.Dequeue());
+		}
+
+        public void PrintincommingList() => PrintLogList(incommingPackageList);
+		public void PrintprioOutgoingList() => PrintLogList(prioritizedOutgoingPackage);
+		public void PrintSortedinc() => PrintSortedLogList(incommingPackageList);
+		public void PrintSortedout() => PrintSortedLogList(prioritizedOutgoingPackage);
+
+		public void PrintLogList(List<Package> packageList) 
+        {
+            Console.WriteLine("");
+            foreach (var package in packageList)
+            {
+                Console.WriteLine($"{package}");
+            }
         }
 
-        public void PrintLogList(List<Package> packageList) { }
+		
+		public void PrintSortedLogList(List<Package> packageList) 
+        {
+			packageList.Sort();
+
+			Console.WriteLine("");
+			foreach (var package in packageList)
+			{
+				Console.WriteLine($"{package}");
+			}
+		}
+
     }
 }
